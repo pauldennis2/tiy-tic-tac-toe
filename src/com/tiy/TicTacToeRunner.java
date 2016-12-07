@@ -97,6 +97,9 @@ public class TicTacToeRunner {
         return gameIsWon (theoreticalBoard);
     }
 
+    /**
+     * Method to print the entire board
+     */
     public void printBoard () {
         for (char[] row : board) {
             System.out.println(row);
