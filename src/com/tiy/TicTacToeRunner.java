@@ -17,7 +17,7 @@ public class TicTacToeRunner {
     }
 
     public TicTacToeRunner () {
-        board = new char[][] {{' ',' ',' '}, {' ', ' ', ' '}, {' ', ' ',' '}};
+        board = new char[][] {{' ',' ',' '}, {' ',' ', ' '}, {' ', ' ',' '}};
         scanner = new SafeScanner(System.in);
     }
 
@@ -78,8 +78,10 @@ public class TicTacToeRunner {
         for (char[] row : board) {
             System.out.println(row);
         }
-    }
 
+
+    }
+d
     public boolean gameIsWon () {
         return false;
     }
