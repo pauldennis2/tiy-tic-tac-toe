@@ -50,7 +50,7 @@ public class TicTacToeRunner {
             }
             if (playing) {
                 System.out.println("Computer's turn");
-                printBoard();
+                Drawing.printBoard(board);
                 computerMove();
             }
         }//End game loop
@@ -59,7 +59,7 @@ public class TicTacToeRunner {
     public void playerMove () {
         boolean moveIsGood = false;
         while (!moveIsGood) { //getting the user's move
-            printBoard();
+            Drawing.printBoard(board);
             System.out.println("Please input move row");
             int row = scanner.nextIntInRange(0, 2);
             System.out.println("Please input move column");
@@ -155,14 +155,14 @@ public class TicTacToeRunner {
     /**
      * Method to print the entire board
      */
-    public void printBoard () {
+   /* public void printBoard () {
         System.out.println("Printing board:\n___");
         for (char[] row : board) {
             System.out.println(row);
         }
         System.out.println("___");
     }
-
+*/
     public boolean gameIsWon (char[][] thisBoard) {
         return (rowWinner(thisBoard) || columnWinner(thisBoard) || diagonalWinner(thisBoard));
     }

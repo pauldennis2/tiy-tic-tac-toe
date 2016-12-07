@@ -8,45 +8,33 @@ public class Drawing {
 
     public static void main(String[] args){
         char[][] test = {{' ', 'X', ' '}, {'O', ' ', 'X'}, {'X', 'X', 'O'}};
-        //something(test);
+        printBoard(test);
 
 
     }
-    public static void something(char[][] theChar){
-        //theChar = new char[3][3];
+    public static void printBoard(char[][] theChar){
 
-        StringBuilder s1 = new StringBuilder(" | | ");
-        StringBuilder s2 = new StringBuilder(" | | ");
-        StringBuilder s3 = new StringBuilder(" | | ");
+        StringBuilder s1 = new StringBuilder("||");
+        StringBuilder s2 = new StringBuilder("||");
+        StringBuilder s3 = new StringBuilder("||");
 
-        System.out.println(s1);
-        System.out.println(s2);
-        System.out.println(s3);
 
-        if(theChar[0][0] == 'X'|| theChar[0][0]=='O'){
-            s1.insert(0,theChar[0][0]);
-        }else if (theChar[0][1]== 'X'|| theChar[0][1] =='O') {
-            s1.insert(2,theChar[0][1]);
-        }else  if (theChar[0][2]== 'X'|| theChar[0][2] =='O') {
-            s1.insert(4, theChar[0][2]);
-        }else if (theChar[1][0]== 'X'|| theChar[1][0] =='O') {
-            s2.insert(0, theChar[0][1]);
-        }else if (theChar[1][1]== 'X'|| theChar[1][1] =='O') {
-            s2.insert(2, theChar[1][1]);
-        }else if (theChar[1][2]== 'X'|| theChar[1][2] =='O') {
-            s2.insert(4, theChar[0][1]);
-        }else if (theChar[2][0]== 'X'|| theChar[2][0] =='O') {
-            s3.insert(0, theChar[2][0]);
-        }else if (theChar[2][1]== 'X'|| theChar[2][1] =='O') {
-            s3.insert(2, theChar[2][1]);
-        }else if (theChar[2][2]== 'X'|| theChar[2][2] =='O') {
-            s3.insert(4, theChar[2][2]);
-        }
+        s1.insert(0, theChar[0][0]);
+        s1.insert(2, theChar[0][1]);
+        s1.insert(4, theChar[0][2]);
+        s2.insert(0, theChar[1][0]);
+        s2.insert(2, theChar[1][1]);
+        s2.insert(4, theChar[1][2]);
+        s3.insert(0, theChar[2][0]);
+        s3.insert(2, theChar[2][1]);
+        s3.insert(4, theChar[2][2]);
 
         System.out.println(s1);
         System.out.println(s2);
         System.out.println(s3);
     }
+
+
 
     public static void paulBadApproach () {
         String[] x = {"\\  /", " \\/ ", " /\\", "/  \\"};
