@@ -10,6 +10,7 @@ public class TicTacToeRunner {
 
     char[][] board;
     SafeScanner scanner;
+    Random random;
 
     private boolean playing = true;
 
@@ -22,6 +23,7 @@ public class TicTacToeRunner {
     public TicTacToeRunner () {
         board = new char[][] {{' ',' ',' '}, {' ',' ', ' '}, {' ', ' ',' '}};
         scanner = new SafeScanner(System.in);
+        random = new Random();
     }
 
     public TicTacToeRunner (int size) {
@@ -30,6 +32,7 @@ public class TicTacToeRunner {
         for (char[] row : board) {
             Arrays.fill(row, ' ');
         }
+
     }
 
     public void run () {
@@ -81,13 +84,11 @@ public class TicTacToeRunner {
                 } else {
                     System.out.println("That square is already taken");
                 }
-
             }
         }
     }
 
     public void computerMove () {
-        Random random = new Random();
         int playerHasWinningMove = playerHasWinningMove();
         if (playerHasWinningMove == -1) { //Player does not have a winning move
             boolean moveIsGood = false;
@@ -99,7 +100,6 @@ public class TicTacToeRunner {
                     moveIsGood = true;
                 }
             }
-
         }
          else {
               int column = playerHasWinningMove % 10;
@@ -124,11 +124,12 @@ public class TicTacToeRunner {
             playing = false;
         }
     }
-    //If the player does have a winning move, returns the move in the form:
-        //Row = tensdigit
-        //Column = onesdigit
-    //Else returns -1
-    //Will return the first winning move it finds, Starting at topleft and reading down, the middle row and down, etc.
+    /*  If the player does have a winning move, returns the move in the form:
+            Row = tensdigit
+            Column = onesdigit
+        Else returns -1
+        Will return the first winning move it finds starting at top left and reading down, the middle row and down, etc.
+    */
     public int playerHasWinningMove () {
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 3; column ++) {
@@ -140,7 +141,13 @@ public class TicTacToeRunner {
         }
         return -1;
     }
-    
+
+    /**
+     *
+     * @param row - row of the move in question
+     * @param column - column of the move in question
+     * @return True if the human can win with the given move; false otherwise;
+     */
     public boolean playerHasWinningMoveAt (int row, int column) {
         char[][] theoreticalBoard = {{board[0][0], board[0][1], board[0][2]},
                                         {board[1][0], board[1][1], board[1][2]},
@@ -152,17 +159,6 @@ public class TicTacToeRunner {
         return gameIsWon (theoreticalBoard);
     }
 
-    /**
-     * Method to print the entire board
-     */
-   /* public void printBoard () {
-        System.out.println("Printing board:\n___");
-        for (char[] row : board) {
-            System.out.println(row);
-        }
-        System.out.println("___");
-    }
-*/
     public boolean gameIsWon (char[][] thisBoard) {
         return (rowWinner(thisBoard) || columnWinner(thisBoard) || diagonalWinner(thisBoard));
     }
@@ -224,14 +220,4 @@ public class TicTacToeRunner {
         }
         return true;
     }
-
-    public boolean dynamicBoardIsFull () {
-        for (int row = 0; row <  board[0].length; row++) {
-            for (int column = 0; column < board[0].length; column++) {
-
-            }
-        }
-        return false;
-    }
-
 }
