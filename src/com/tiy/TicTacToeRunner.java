@@ -23,6 +23,7 @@ public class TicTacToeRunner {
         board = new char[][] {{' ',' ',' '}, {' ',' ', ' '}, {' ', ' ',' '}};
         scanner = new SafeScanner(System.in);
     }
+
     public TicTacToeRunner (int size) {
         scanner = new SafeScanner(System.in);
         board = new char[size][size];
@@ -37,33 +38,7 @@ public class TicTacToeRunner {
         sassy = scanner.nextYesNoAnswer();
 
         while (playing) { //Overall game loop
-            boolean moveIsGood = false;
-            while (!moveIsGood) { //getting the user's move
-                printBoard();
-                System.out.println("Please input move row");
-                int row = scanner.nextIntInRange(0, 2);
-                System.out.println("Please input move column");
-                int column = scanner.nextIntInRange(0, 2);
-                if (board[row][column] == ' ') {
-                    moveIsGood = true;
-                    board[row][column] = PLAYER_MOVE;
-                    if (gameIsWon(board)) {
-                        playing = false;
-                        System.out.println("You win! You're amazing!");
-                        if (sassy) {
-                            System.out.print("This program is the Deep Blue of Tic-Tac-Toe");
-                            System.out.println(" but somehow you managed to win! Call Guiness!");
-                        }
-                    }
-                } else {
-                    if (sassy) {
-                        System.out.println("You dummy, you can't move there. It's already taken.");
-                    } else {
-                        System.out.println("That square is already taken");
-                    }
-
-                }
-            }
+            playerMove();
             //Player's move is inputted; check to see if board is full.
             if (boardIsFull()) {
                 if (sassy) {
@@ -77,19 +52,38 @@ public class TicTacToeRunner {
                 System.out.println("Computer's turn");
                 printBoard();
                 computerMove();
-                if (gameIsWon(board)) {
-                    if (sassy) {
-                        System.out.println("You are a big fat loser!");
-                        System.out.println("You couldn't even beat the CPU which moves randomly! Ha!");
-                    } else {
-                        System.out.println("The computer won. Better luck next time!");
-                    }
-
-                    playing = false;
-                }
-                printBoard();
             }
         }//End game loop
+    }
+
+    public void playerMove () {
+        boolean moveIsGood = false;
+        while (!moveIsGood) { //getting the user's move
+            printBoard();
+            System.out.println("Please input move row");
+            int row = scanner.nextIntInRange(0, 2);
+            System.out.println("Please input move column");
+            int column = scanner.nextIntInRange(0, 2);
+            if (board[row][column] == ' ') { //User's desired move is empty
+                moveIsGood = true;
+                board[row][column] = PLAYER_MOVE;
+                if (gameIsWon(board)) {
+                    playing = false;
+                    System.out.println("You win! You're amazing!");
+                    if (sassy) {
+                        System.out.print("This program is the Deep Blue of Tic-Tac-Toe");
+                        System.out.println(" but somehow you managed to win! Call Guiness!");
+                    }
+                }
+            } else { //User's move is no good
+                if (sassy) {
+                    System.out.println("You dummy, you can't move there. It's already taken.");
+                } else {
+                    System.out.println("That square is already taken");
+                }
+
+            }
+        }
     }
 
     public void computerMove () {
@@ -119,6 +113,16 @@ public class TicTacToeRunner {
                   System.out.println("Error in playerHasWinningMove()");
               }
         }
+        if (gameIsWon(board)) {
+            if (sassy) {
+                System.out.println("You are a big fat loser!");
+                System.out.println("You couldn't even beat the CPU which moves randomly! Ha!");
+            } else {
+                System.out.println("The computer won. Better luck next time!");
+            }
+
+            playing = false;
+        }
     }
     //If the player does have a winning move, returns the move in the form:
         //Row = tensdigit
@@ -127,8 +131,7 @@ public class TicTacToeRunner {
     //Will return the first winning move it finds, Starting at topleft and reading down, the middle row and down, etc.
     public int playerHasWinningMove () {
         for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 3; column ++)
-            {
+            for (int column = 0; column < 3; column ++) {
                 if (playerHasWinningMoveAt(row, column)) {
                     int response = row*10 + column;
                     return response;
@@ -142,6 +145,7 @@ public class TicTacToeRunner {
         char[][] theoreticalBoard = {{board[0][0], board[0][1], board[0][2]},
                                         {board[1][0], board[1][1], board[1][2]},
                                         {board[2][0], board[2][1], board[2][2]}};
+
         if (theoreticalBoard[row][column] == ' ') {
             theoreticalBoard[row][column] = PLAYER_MOVE;
         }
@@ -152,11 +156,11 @@ public class TicTacToeRunner {
      * Method to print the entire board
      */
     public void printBoard () {
-        System.out.println("Printing board:\n______");
+        System.out.println("Printing board:\n___");
         for (char[] row : board) {
             System.out.println(row);
         }
-        System.out.println("_______");
+        System.out.println("___");
     }
 
     public boolean gameIsWon (char[][] thisBoard) {
