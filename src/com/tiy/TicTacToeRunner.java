@@ -1,5 +1,6 @@
 package com.tiy;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class TicTacToeRunner {
@@ -12,6 +13,8 @@ public class TicTacToeRunner {
 
     private boolean playing = true;
 
+    private boolean sassy;
+
     public static void main(String[] args) {
         new TicTacToeRunner().run();
     }
@@ -20,12 +23,19 @@ public class TicTacToeRunner {
         board = new char[][] {{' ',' ',' '}, {' ',' ', ' '}, {' ', ' ',' '}};
         scanner = new SafeScanner(System.in);
     }
+    public TicTacToeRunner (int size) {
+        scanner = new SafeScanner(System.in);
+        board = new char[size][size];
+        for (char[] row : board) {
+            Arrays.fill(row, ' ');
+        }
+    }
 
     public void run () {
         System.out.println("Welcome to Tic Tac Toe!");
-        Drawing draw = new Drawing();
-        draw.something();
-        printBoard();
+        System.out.println("Sassy mode?");
+        sassy = scanner.nextYesNoAnswer();
+
         while (playing) { //Overall game loop
             boolean moveIsGood = false;
             while (!moveIsGood) { //getting the user's move
@@ -40,15 +50,44 @@ public class TicTacToeRunner {
                     if (gameIsWon(board)) {
                         playing = false;
                         System.out.println("You win! You're amazing!");
+                        if (sassy) {
+                            System.out.print("This program is the Deep Blue of Tic-Tac-Toe");
+                            System.out.println(" but somehow you managed to win! Call Guiness!");
+                        }
                     }
                 } else {
-                    System.out.println("That square is already taken");
+                    if (sassy) {
+                        System.out.println("You dummy, you can't move there. It's already taken.");
+                    } else {
+                        System.out.println("That square is already taken");
+                    }
+
                 }
             }
-            computerMove();
-            if (gameIsWon(board)) {
-                System.out.println("You are a big fat loser!");
+            //Player's move is inputted; check to see if board is full.
+            if (boardIsFull()) {
+                if (sassy) {
+                    System.out.println("It's a tie. You couldn't even beat this lame CPU.");
+                } else {
+                    System.out.println("It's a tie. No one wins.");
+                }
                 playing = false;
+            }
+            if (playing) {
+                System.out.println("Computer's turn");
+                printBoard();
+                computerMove();
+                if (gameIsWon(board)) {
+                    if (sassy) {
+                        System.out.println("You are a big fat loser!");
+                        System.out.println("You couldn't even beat the CPU which moves randomly! Ha!");
+                    } else {
+                        System.out.println("The computer won. Better luck next time!");
+                    }
+
+                    playing = false;
+                }
+                printBoard();
             }
         }//End game loop
     }
@@ -63,6 +102,7 @@ public class TicTacToeRunner {
                 int column = random.nextInt(3);
                 if (board[row][column] == ' ') {
                     board[row][column] = COMPUTER_MOVE;
+                    moveIsGood = true;
                 }
             }
 
@@ -72,6 +112,9 @@ public class TicTacToeRunner {
               int row = (playerHasWinningMove - column) / 10;
               if (board[row][column] == ' ') { //Should be true
                   board[row][column] = COMPUTER_MOVE;
+                  if (sassy) {
+                      System.out.println("Haha! I blocked you.");
+                  }
               } else {
                   System.out.println("Error in playerHasWinningMove()");
               }
@@ -81,11 +124,15 @@ public class TicTacToeRunner {
         //Row = tensdigit
         //Column = onesdigit
     //Else returns -1
+    //Will return the first winning move it finds, Starting at topleft and reading down, the middle row and down, etc.
     public int playerHasWinningMove () {
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 3; column ++)
             {
-                //if (playerHasWinningMoveAt(row, column))
+                if (playerHasWinningMoveAt(row, column)) {
+                    int response = row*10 + column;
+                    return response;
+                }
             }
         }
         return -1;
@@ -95,7 +142,9 @@ public class TicTacToeRunner {
         char[][] theoreticalBoard = {{board[0][0], board[0][1], board[0][2]},
                                         {board[1][0], board[1][1], board[1][2]},
                                         {board[2][0], board[2][1], board[2][2]}};
-        theoreticalBoard[row][column] = PLAYER_MOVE;
+        if (theoreticalBoard[row][column] == ' ') {
+            theoreticalBoard[row][column] = PLAYER_MOVE;
+        }
         return gameIsWon (theoreticalBoard);
     }
 
@@ -103,22 +152,81 @@ public class TicTacToeRunner {
      * Method to print the entire board
      */
     public void printBoard () {
+        System.out.println("Printing board:\n______");
         for (char[] row : board) {
             System.out.println(row);
         }
+        System.out.println("_______");
     }
 
     public boolean gameIsWon (char[][] thisBoard) {
-        return rowWinner(thisBoard) && columnWinner(thisBoard) && diagonalWinner(thisBoard);
+        return (rowWinner(thisBoard) || columnWinner(thisBoard) || diagonalWinner(thisBoard));
     }
 
     public boolean rowWinner (char[][] thisBoard) {
+        for (int row = 0; row < 3; row++) {
+            char c = thisBoard[row][0];//Starting from the leftmost char in the row
+            if (c == ' ') {
+                continue;
+            }
+            if (c == thisBoard[row][1]) {
+                if (c == thisBoard[row][2]) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
     public boolean columnWinner (char[][] thisBoard) {
+        for (int column = 0; column < 3; column++) {
+            char c = thisBoard[0][column];//Starting from the top char in the column
+            if (c == ' ') {
+                continue;
+            }
+            if (c == thisBoard[1][column]) {
+                if (c == thisBoard[2][column]) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
     public boolean diagonalWinner (char[][] thisBoard) {
+        char c = thisBoard[0][0];
+        if (c != ' ') {
+            if (c == thisBoard[1][1]) {
+                if (c == thisBoard[2][2]) {
+                    return true;
+                }
+            }
+        }
+        c = thisBoard[2][0];
+        if (c != ' ') {
+            if (c == thisBoard[1][1]) {
+                if (c == thisBoard[0][2]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean boardIsFull () {
+        for (int row = 0; row < 3; row++) {
+            for (int column = 0; column < 3; column++) {
+                if (board[row][column] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean dynamicBoardIsFull () {
+        for (int row = 0; row <  board[0].length; row++) {
+            for (int column = 0; column < board[0].length; column++) {
+
+            }
+        }
         return false;
     }
 
