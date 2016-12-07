@@ -23,6 +23,8 @@ public class TicTacToeRunner {
 
     public void run () {
         System.out.println("Welcome to Tic Tac Toe!");
+        Drawing draw = new Drawing();
+        draw.something();
         printBoard();
         while (playing) { //Overall game loop
             boolean moveIsGood = false;
