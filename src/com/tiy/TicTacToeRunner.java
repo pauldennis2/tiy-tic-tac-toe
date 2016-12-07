@@ -59,13 +59,19 @@ public class TicTacToeRunner {
             board[row][column] = COMPUTER_MOVE;
         }
 
-        if (playerHasWinningMove())
-        {
-
-        } else {
-            boolean moveIsGood
-            while (!moveIsGood)
+        if (playerHasWinningMove()) {
         }
+
+         else {
+            boolean moveIsGood = false;
+            while (!moveIsGood) {
+
+            }
+        }
+    }
+
+    public boolean playerHasWinningMove () {
+        return true;
     }
 
     public void printBoard () {
@@ -77,9 +83,5 @@ public class TicTacToeRunner {
     public boolean gameIsWon () {
         return false;
     }
-
-
-    public boolean rowIsWon () {
-        //first row
-    }
+    
 }
