@@ -12,6 +12,10 @@ public class TicTacToeRunner {
     SafeScanner scanner;
     Random random;
 
+    int bigRow;
+    int bigColumn;
+    Drawing draw;
+
     private boolean playing = true;
 
     private boolean sassy;
@@ -62,14 +66,17 @@ public class TicTacToeRunner {
     public void playerMove () {
         boolean moveIsGood = false;
         while (!moveIsGood) { //getting the user's move
-            Drawing.printBoard(board);
-            System.out.println("Please input move row");
-            int row = scanner.nextIntInRange(0, 2);
-            System.out.println("Please input move column");
-            int column = scanner.nextIntInRange(0, 2);
-            if (board[row][column] == ' ') { //User's desired move is empty
+            draw.printBigBoard(board);
+//            System.out.println("Please input a number");
+            int userPlay = scanner.nextIntInRange(0,9);
+            inputFromUser(userPlay);
+//            System.out.println("Please input move row");
+//            int row = scanner.nextIntInRange(0, 2);
+//            System.out.println("Please input move column");
+//            int column = scanner.nextIntInRange(0, 2);
+            if (board[bigRow][bigColumn] == ' ') { //User's desired move is empty
                 moveIsGood = true;
-                board[row][column] = PLAYER_MOVE;
+                board[bigRow][bigColumn] = PLAYER_MOVE;
                 if (gameIsWon(board)) {
                     playing = false;
                     System.out.println("You win! You're amazing!");
@@ -156,6 +163,7 @@ public class TicTacToeRunner {
         if (theoreticalBoard[row][column] == ' ') {
             theoreticalBoard[row][column] = PLAYER_MOVE;
         }
+
         return gameIsWon (theoreticalBoard);
     }
 
@@ -219,5 +227,47 @@ public class TicTacToeRunner {
             }
         }
         return true;
+    }
+
+    public void inputFromUser(int userPlay){
+        switch (userPlay){
+            case 1:
+                bigRow = 0;
+                bigColumn = 0;
+                break;
+            case 2:
+                bigRow = 0;
+                bigColumn = 1;
+                break;
+            case 3:
+                bigRow = 0;
+                bigColumn = 2;
+                break;
+            case 4:
+                bigRow = 1;
+                bigColumn = 0;
+                break;
+            case 5:
+                bigRow = 1;
+                bigColumn = 1;
+                break;
+            case 6:
+                bigRow = 1;
+                bigColumn = 2;
+                break;
+            case 7:
+                bigRow = 2;
+                bigColumn = 0;
+                break;
+            case 8:
+                bigRow = 2;
+                bigColumn =1;
+                break;
+            case 9:
+                bigRow = 2;
+                bigColumn =2;
+
+        }
+
     }
 }
