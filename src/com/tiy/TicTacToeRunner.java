@@ -28,6 +28,7 @@ public class TicTacToeRunner {
         board = new char[][] {{' ',' ',' '}, {' ',' ', ' '}, {' ', ' ',' '}};
         scanner = new SafeScanner(System.in);
         random = new Random();
+        draw = new Drawing();
     }
 
     public TicTacToeRunner (int size) {
@@ -50,6 +51,7 @@ public class TicTacToeRunner {
             if (boardIsFull()) {
                 if (sassy) {
                     System.out.println("It's a tie. You couldn't even beat this lame CPU.");
+                    draw.printBigBoard(board);
                 } else {
                     System.out.println("It's a tie. No one wins.");
                 }
@@ -79,6 +81,7 @@ public class TicTacToeRunner {
                 board[bigRow][bigColumn] = PLAYER_MOVE;
                 if (gameIsWon(board)) {
                     playing = false;
+                    draw.printBigBoard(board);
                     System.out.println("You win! You're amazing!");
                     if (sassy) {
                         System.out.print("This program is the Deep Blue of Tic-Tac-Toe");
@@ -122,10 +125,12 @@ public class TicTacToeRunner {
         }
         if (gameIsWon(board)) {
             if (sassy) {
+                draw.printBigBoard(board);
                 System.out.println("You are a big fat loser!");
                 System.out.println("You couldn't even beat the CPU which moves randomly! Ha!");
             } else {
                 System.out.println("The computer won. Better luck next time!");
+                draw.printBigBoard(board);
             }
 
             playing = false;
